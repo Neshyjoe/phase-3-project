@@ -1,7 +1,7 @@
 import typer
 from myapp.db import init_db
 from datetime import datetime
-from models import SessionLocal, User, Entry, Goal, MealPlan  
+from models import SessionLocal, User, Entry, Goal, MealPlan, FoodEntry  
 from sqlalchemy.orm import sessionmaker
 
 app = typer.Typer()
@@ -81,7 +81,7 @@ def list_goals(user_id: int):
 
 @app.command("report")
 def report(user_id: int, date: str):
-    entries = db.query(FoodEntry).filter(FoodEntry.user_id == user_id, FoodEntry.date == date).all()
+    entries = db.query(entry).filter(entry.user_id == user_id, entry.date == date).all()
     total = sum(e.calories for e in entries)
     typer.echo(f" Total calories for {date}: {total}")
 
